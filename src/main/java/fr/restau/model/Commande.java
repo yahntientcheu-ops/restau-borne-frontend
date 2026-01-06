@@ -2,20 +2,19 @@ package fr.restau.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date; // Pour la variable date du diagramme
+import java.util.Date;
 
 public class Commande {
-    private long id; // Type long comme sur le diagramme
+    private long id;
     private double prixTotal;
-    private String identifiantClient; // Ajouté selon le diagramme
-    private Date date; // Ajouté selon le diagramme
+    private String identifiantClient;
+    private Date date;
     private List<LigneCommande> lignes = new ArrayList<>();
 
     public Commande() {
-        this.date = new Date(); // Par défaut, la commande est à la date d'aujourd'hui
+        this.date = new Date();
     }
 
-    // La logique de calcul reste la même pour REQ-ORD-004
     public void calculerTotal() {
         this.prixTotal = 0;
         for (LigneCommande ligne : lignes) {
@@ -23,13 +22,39 @@ public class Commande {
         }
     }
 
-    // Getters et Setters pour correspondre aux tables
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
-    public double getPrixTotal() { return prixTotal; }
-    public void setPrixTotal(double prixTotal) { this.prixTotal = prixTotal; }
-    public String getIdentifiantClient() { return identifiantClient; }
-    public void setIdentifiantClient(String idClient) { this.identifiantClient = idClient; }
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
+    // --- AJOUTE CES MÉTHODES ICI (LOGIQUE PERSONNE C) ---
+
+    public void ajouterPlat(Plat plat) {
+        for (LigneCommande ligne : lignes) {
+            if (ligne.getPlat().getId() == plat.getId()) {
+                if (ligne.getQuantite() < 9) { // Limite de 9
+                    ligne.setQuantite(ligne.getQuantite() + 1);
+                }
+                calculerTotal();
+                return;
+            }
+        }
+        lignes.add(new LigneCommande(plat, 1, "")); // Nouvelle ligne
+        calculerTotal();
+    }
+
+    public void retirerPlat(Plat plat) {
+        lignes.removeIf(ligne -> {
+            if (ligne.getPlat().getId() == plat.getId()) {
+                if (ligne.getQuantite() > 1) {
+                    ligne.setQuantite(ligne.getQuantite() - 1);
+                    return false;
+                }
+                return true; // Supprime la ligne si qté arrive à 0
+            }
+            return false;
+        });
+        calculerTotal();
+    }
+
+    // --- FIN DES MÉTHODES AJOUTÉES ---
+
+    // Tes Getters et Setters...
+    public List<LigneCommande> getLignes() { return lignes; }
+    // ... reste du code
 }
