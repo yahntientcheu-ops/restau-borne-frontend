@@ -2,46 +2,34 @@ package fr.restau.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date; // Pour la variable date du diagramme
 
 public class Commande {
-    private String id;
-    private List<LigneCommande> lignes = new ArrayList<>();
+    private long id; // Type long comme sur le diagramme
     private double prixTotal;
+    private String identifiantClient; // Ajouté selon le diagramme
+    private Date date; // Ajouté selon le diagramme
+    private List<LigneCommande> lignes = new ArrayList<>();
 
-    public Commande() {}
-
-    // Méthode pour ajouter un plat au panier (Logique métier Personne C)
-    public void ajouterPlat(Plat plat) {
-        // 1. On cherche si le plat est déjà dans le panier
-        for (LigneCommande ligne : lignes) {
-            if (ligne.getPlat().getId().equals(plat.getId())) {
-                // Si trouvé, on augmente la quantité (limite de 9 selon REQ-ORD-002)
-                if (ligne.getQuantite() < 9) {
-                    ligne.setQuantite(ligne.getQuantite() + 1);
-                }
-                calculerTotal();
-                return;
-            }
-        }
-        // 2. Si non trouvé, on crée une nouvelle ligne
-        lignes.add(new LigneCommande(plat, 1));
-        calculerTotal();
+    public Commande() {
+        this.date = new Date(); // Par défaut, la commande est à la date d'aujourd'hui
     }
 
-    // Calcule la somme de tous les sous-totaux
+    // La logique de calcul reste la même pour REQ-ORD-004
     public void calculerTotal() {
         this.prixTotal = 0;
         for (LigneCommande ligne : lignes) {
-            this.prixTotal += ligne.getSousTotal();
+            this.prixTotal += (ligne.getPrixUnitaire() * ligne.getQuantite());
         }
     }
 
-    // Getters et Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public List<LigneCommande> getLignes() { return lignes; }
-    public void setLignes(List<LigneCommande> lignes) { this.lignes = lignes; }
-
+    // Getters et Setters pour correspondre aux tables
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
     public double getPrixTotal() { return prixTotal; }
+    public void setPrixTotal(double prixTotal) { this.prixTotal = prixTotal; }
+    public String getIdentifiantClient() { return identifiantClient; }
+    public void setIdentifiantClient(String idClient) { this.identifiantClient = idClient; }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
 }
