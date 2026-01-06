@@ -1,7 +1,7 @@
 package fr.restau.model;
 
 public class Plat {
-    private String id;
+    private long id;
     private String nom;
     private String description;
     private double prix;
@@ -11,7 +11,7 @@ public class Plat {
 
     public Plat() {}
 
-    public Plat(String id, String nom, String description, double prix, Categorie categorie, String regimeSpecial) {
+    public Plat(long id, String nom, String description, double prix, Categorie categorie, String regimeSpecial) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -22,8 +22,8 @@ public class Plat {
     }
 
     // Getters et Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
