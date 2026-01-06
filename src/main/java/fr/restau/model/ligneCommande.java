@@ -1,12 +1,12 @@
 package fr.restau.model;
 
-public class LigneCommande {
+public class ligneCommande {
     private Plat plat;
     private int quantite; // Permet de respecter REQ-ORD-002 (quantité 1 à 9)
 
-    public LigneCommande() {}
+    public ligneCommande() {}
 
-    public LigneCommande(Plat plat, int quantite) {
+    public ligneCommande(Plat plat, int quantite) {
         this.plat = plat;
         this.quantite = quantite;
     }

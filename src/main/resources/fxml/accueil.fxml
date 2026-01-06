@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.restau.model.AccueilController">
+    <children>
+        <ImageView fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../images/fond_accueil.jpg" />
+            </image>
+        </ImageView>
+
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00000099" height="1080.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
+
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <top>
+                <VBox alignment="CENTER" prefHeight="300.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label styleClass="titre-resto" text="LE WOKO MOWOKO" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="96.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="sous-titre" text="L'authenticité asiatique à portée de main" textFill="#f1c40f">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets top="50.0" />
+                    </padding>
+                </VBox>
+            </top>
+            <center>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="btnCommencer" mnemonicParsing="false" onAction="#handleCommencer" styleClass="btn-principal" text="COMMANDER ICI" />
+                    </children>
+                </VBox>
+            </center>
+            <bottom>
+                <Label text="Touchez l'écran pour commencer votre expérience" textFill="WHITE" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="40.0" />
+                    </BorderPane.margin>
+                    <font>
+                        <Font name="System Italic" size="18.0" />
+                    </font>
+                </Label>
+            </bottom>
+        </BorderPane>
+    </children>
+</StackPane>
