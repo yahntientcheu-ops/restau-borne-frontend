@@ -14,29 +14,25 @@ public class ApiClient {
     private final HttpClient client = HttpClient.newHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    // Mission 1 : Récupérer la carte des plats
-    public List<Plat> getTousLesPlats() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/plats"))
-                .GET()
-                .build();
+   // Dans ApiClient.java
+public List<Plat> getTousLesPlats() throws Exception {
+    // Change "/plats" par "/menu" car c'est ce que la personne A a écrit
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_URL + "/menu")) 
+            .GET()
+            .build();
+    // ... reste du code
+}
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        
-        // Transforme le JSON reçu en une liste d'objets Plat
-        return mapper.readValue(response.body(), 
-               mapper.getTypeFactory().constructCollectionType(List.class, Plat.class));
-    }
-
-    // Mission 2 : Envoyer la commande finale
-    public void envoyerCommande(Commande commande) throws Exception {
-        String json = mapper.writeValueAsString(commande);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/commander"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
+public void envoyerCommande(Commande commande) throws Exception {
+    // Change "/commander" par "/valider"
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_URL + "/valider"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(commande)))
+            .build();
+    // ... reste du code
+}
 
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
