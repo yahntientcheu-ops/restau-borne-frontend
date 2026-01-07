@@ -1,47 +1,94 @@
 package fr.restau.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Commande {
-    private String id;
-    private List<ligneCommande> lignes = new ArrayList<>();
+
+    private long id;
+    private String identifiantClient;
+    private Date date;
+    private List<LigneCommande> lignes = new ArrayList<>();
     private double prixTotal;
 
-    public Commande() {}
+    // --- CONSTRUCTEURS ---
+    public Commande() {
+        this.date = new Date();
+    }
 
-    // Méthode pour ajouter un plat au panier (Logique métier Personne C)
+    // --- LOGIQUE MÉTIER ---
+    public void calculerTotal() {
+        prixTotal = 0;
+        for (LigneCommande ligne : lignes) {
+            prixTotal += ligne.getPrixUnitaire() * ligne.getQuantite();
+        }
+    }
+
     public void ajouterPlat(Plat plat) {
-        // 1. On cherche si le plat est déjà dans le panier
-        for (ligneCommande ligne : lignes) {
-            if (ligne.getPlat().getId().equals(plat.getId())) {
-                // Si trouvé, on augmente la quantité (limite de 9 selon REQ-ORD-002)
-                if (ligne.getQuantite() < 9) {
+        for (LigneCommande ligne : lignes) {
+            if (ligne.getPlat().getId() == plat.getId()) {
+                if (ligne.getQuantite() < 9) { // limite de 9
                     ligne.setQuantite(ligne.getQuantite() + 1);
                 }
                 calculerTotal();
                 return;
             }
         }
-        // 2. Si non trouvé, on crée une nouvelle ligne
-        lignes.add(new ligneCommande(plat, 1));
+        lignes.add(new LigneCommande(plat, 1, ""));
         calculerTotal();
     }
 
-    // Calcule la somme de tous les sous-totaux
-    public void calculerTotal() {
-        this.prixTotal = 0;
-        for (ligneCommande ligne : lignes) {
-            this.prixTotal += ligne.getSousTotal();
-        }
+    public void retirerPlat(Plat plat) {
+        lignes.removeIf(ligne -> {
+            if (ligne.getPlat().getId() == plat.getId()) {
+                if (ligne.getQuantite() > 1) {
+                    ligne.setQuantite(ligne.getQuantite() - 1);
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        });
+        calculerTotal();
     }
 
-    // Getters et Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // --- GETTERS ---
+    public long getId() {
+        return id;
+    }
 
-    public List<ligneCommande> getLignes() { return lignes; }
-    public void setLignes(List<ligneCommande> lignes) { this.lignes = lignes; }
+    public String getIdentifiantClient() {
+        return identifiantClient;
+    }
 
-    public double getPrixTotal() { return prixTotal; }
+    public Date getDate() {
+        return date;
+    }
+
+    public List<LigneCommande> getLignes() {
+        return lignes;
+    }
+
+    public double getPrixTotal() {
+        return prixTotal;
+    }
+
+    // --- SETTERS ---
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setIdentifiantClient(String identifiantClient) {
+        this.identifiantClient = identifiantClient;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setLignes(List<LigneCommande> lignes) {
+        this.lignes = lignes;
+        calculerTotal();
+    }
 }
